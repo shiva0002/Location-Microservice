@@ -3,12 +3,14 @@ package com.movieticketsystem.location.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.movieticketsystem.location.Entities.City;
 import com.movieticketsystem.location.Entities.Theatre;
 import com.movieticketsystem.location.Exception.CityNotFoundException;
 import com.movieticketsystem.location.Repository.CityRepo;
 
+@Service
 public class CityServiceImpl implements CityService {
 
     @Autowired
