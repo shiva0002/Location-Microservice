@@ -19,7 +19,7 @@ import lombok.Setter;
 @Entity
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String cityId;
 	private String cityName;
 	private String cityAddress;

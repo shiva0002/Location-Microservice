@@ -16,7 +16,7 @@ import lombok.Setter;
 @Entity
 public class Screen {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String screenId;
 	private String screenName;
 	private boolean[] seats;

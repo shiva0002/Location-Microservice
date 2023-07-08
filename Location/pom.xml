@@ -53,6 +53,14 @@
     <artifactId>spring-aop</artifactId>
     <version>6.0.3</version>
 </dependency>
+	<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+</dependency>
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+</dependency>
 
 	</dependencies>
 

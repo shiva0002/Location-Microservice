@@ -11,7 +11,7 @@ public interface CityService {
 
     String updateCity(String cityName,City city);
 
-    City getCityById(String cityId);
+    City getCityByName(String cityName);
 
     String deleteCityById(String cityId);
 

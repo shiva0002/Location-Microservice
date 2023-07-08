@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,18 +23,18 @@ public class CityController {
     private CityService cityService;
     
     @PostMapping("/add")
-    public String addCity(City newCity) {
+    public String addCity(@RequestBody City newCity) {
         return cityService.addCity(newCity);
     }
 
     @PostMapping("/update/{cityName}")
-    public String updateCity(@PathVariable String cityName, City city){
+    public String updateCity(@PathVariable String cityName, @RequestBody City city){
         return cityService.updateCity(cityName, city);
     }
 
-    @GetMapping("/getCity/{cityId}")
-    public City getCityById(@PathVariable String cityId){
-        return cityService.getCityById(cityId);
+    @GetMapping("/getCity/{cityName}")
+    public City getCityByName(@PathVariable String cityName){
+        return cityService.getCityByName(cityName);
     }
 
     @DeleteMapping("/deleteCity/{cityId}")

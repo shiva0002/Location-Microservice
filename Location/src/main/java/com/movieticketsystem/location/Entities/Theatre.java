@@ -19,7 +19,7 @@ import lombok.Setter;
 @Entity
 public class Theatre {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String theatreId;
 	private String theatreName;
 	private String theatreAddress;
