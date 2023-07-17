@@ -2,6 +2,7 @@ package com.movieticketsystem.location.Entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +24,8 @@ public class City {
     private String cityId;
 	private String cityName;
 	private String cityAddress;
-    @OneToMany
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     private List<Theatre> theatre;
 
 }

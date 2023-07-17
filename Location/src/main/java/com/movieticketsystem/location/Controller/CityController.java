@@ -3,10 +3,13 @@ package com.movieticketsystem.location.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,28 +25,33 @@ public class CityController {
     @Autowired
     private CityService cityService;
     
-    @PostMapping("/add")
-    public String addCity(@RequestBody City newCity) {
-        return cityService.addCity(newCity);
+    @PostMapping
+    public ResponseEntity<String> addCity(@RequestBody City city) {
+        String result = cityService.addCity(city);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update/{cityName}")
-    public String updateCity(@PathVariable String cityName, @RequestBody City city){
-        return cityService.updateCity(cityName, city);
+    @PutMapping("/{cityName}")
+    public ResponseEntity<String> updateCity(@PathVariable String cityName, @RequestBody City city) {
+        String result = cityService.updateCity(cityName, city);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getCity/{cityName}")
-    public City getCityByName(@PathVariable String cityName){
-        return cityService.getCityByName(cityName);
+    @GetMapping("/{cityName}")
+    public ResponseEntity<City> getCityByName(@PathVariable String cityName) {
+        City city = cityService.getCityByName(cityName);
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteCity/{cityId}")
-    public String deleteCityById(@PathVariable String cityId){
-        return cityService.deleteCityById(cityId);
+    @DeleteMapping("/{cityId}")
+    public ResponseEntity<String> deleteCityById(@PathVariable String cityId) {
+        String result = cityService.deleteCityById(cityId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllThetres/{cityName}")
-    public List<Theatre> getAllTheatres(@PathVariable String cityName){
-        return cityService.getAllTheatres(cityName);
+    @GetMapping("/{cityName}/theatres")
+    public ResponseEntity<List<Theatre>> getAllTheatres(@PathVariable String cityName) {
+        List<Theatre> theatres = cityService.getAllTheatres(cityName);
+        return new ResponseEntity<>(theatres, HttpStatus.OK);
     }
 }
