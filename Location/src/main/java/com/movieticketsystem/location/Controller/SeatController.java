@@ -3,49 +3,28 @@ package com.movieticketsystem.location.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.movieticketsystem.location.Entities.Seat;
 import com.movieticketsystem.location.Service.SeatService;
 
+@RestController
+@RequestMapping("/seat")
 public class SeatController {
 
     @Autowired
-    private SeatService seatService;
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<Seat> getSeatById(@PathVariable Long id) {
-        Seat seat = seatService.getSeatById(id);
-        return new ResponseEntity<>(seat, HttpStatus.OK);
-    }
+    private SeatService seatService;    
 
-    @GetMapping
-    public ResponseEntity<List<Seat>> getAllSeats() {
-        List<Seat> seats = seatService.getAllSeats();
-        return new ResponseEntity<>(seats, HttpStatus.OK);
-    }
-
-    @GetMapping("/screens/{screenId}")
-    public ResponseEntity<List<Seat>> getAllSeatsByScreenId(@PathVariable Long screenId) {
-        List<Seat> seats = seatService.getAllSeatsByScreenId(screenId);
-        return new ResponseEntity<>(seats, HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Seat> updateSeat(@PathVariable Long id, @RequestBody Seat seat) {
-        Seat updatedSeat = seatService.updateSeat(id, seat);
-        return new ResponseEntity<>(updatedSeat, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSeat(@PathVariable Long id) {
-        seatService.deleteSeat(id);
-        return new ResponseEntity<>("Seat deleted successfully", HttpStatus.OK);
+    @PostMapping("/addAll")
+    public String addSeats(@RequestBody List<Seat> Seat) {
+        if(Seat != null && !Seat.isEmpty()) {
+            seatService.insertAll(Seat);
+            return String.format("Added %d Seat.", Seat.size());
+        } else {
+            return "REQUEST_NO_BODY";
+        }
     }
 }

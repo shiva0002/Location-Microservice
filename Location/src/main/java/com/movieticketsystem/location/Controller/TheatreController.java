@@ -25,31 +25,31 @@ public class TheatreController {
     @Autowired
     private TheatreService theatreService;
 
-    @PostMapping
+    @PostMapping("/addTheatre")
     public ResponseEntity<String> addTheatre(@RequestBody Theatre theatre) {
         String result = theatreService.addTheatre(theatre);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{theatreName}")
+    @PutMapping("/updateTheatre/{theatreName}")
     public ResponseEntity<String> updateTheatre(@PathVariable String theatreName, @RequestBody Theatre theatre) {
         String result = theatreService.updateTheatre(theatreName, theatre);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{theatreId}")
+    @GetMapping("/getTheatre/{theatreId}")
     public ResponseEntity<Theatre> getTheatreById(@PathVariable String theatreId) {
         Theatre theatre = theatreService.getTheatreById(theatreId);
         return new ResponseEntity<>(theatre, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{theatreId}")
+    @DeleteMapping("/deleteTheatre/{theatreId}")
     public ResponseEntity<String> deleteTheatreById(@PathVariable String theatreId) {
         String result = theatreService.deleteTheatreById(theatreId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{theatreName}/screens")
+    @GetMapping("/{theatreName}/getAllscreens")
     public ResponseEntity<List<Screen>> getAllScreens(@PathVariable String theatreName) {
         List<Screen> screens = theatreService.getAllScreens(theatreName);
         return new ResponseEntity<>(screens, HttpStatus.OK);

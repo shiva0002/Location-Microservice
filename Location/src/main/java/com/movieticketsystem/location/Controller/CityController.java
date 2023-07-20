@@ -31,25 +31,25 @@ public class CityController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{cityName}")
+    @PutMapping("/updateCity/{cityName}")
     public ResponseEntity<String> updateCity(@PathVariable String cityName, @RequestBody City city) {
         String result = cityService.updateCity(cityName, city);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{cityName}")
+    @GetMapping("/getCity/{cityName}")
     public ResponseEntity<City> getCityByName(@PathVariable String cityName) {
         City city = cityService.getCityByName(cityName);
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{cityId}")
+    @DeleteMapping("/deleteCity/{cityId}")
     public ResponseEntity<String> deleteCityById(@PathVariable String cityId) {
         String result = cityService.deleteCityById(cityId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{cityName}/theatres")
+    @GetMapping("/{cityName}/getAlltheatres")
     public ResponseEntity<List<Theatre>> getAllTheatres(@PathVariable String cityName) {
         List<Theatre> theatres = cityService.getAllTheatres(cityName);
         return new ResponseEntity<>(theatres, HttpStatus.OK);

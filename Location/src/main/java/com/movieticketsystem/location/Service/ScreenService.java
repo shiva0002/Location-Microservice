@@ -1,5 +1,7 @@
 package com.movieticketsystem.location.Service;
 
+import java.util.List;
+
 import com.movieticketsystem.location.Entities.Screen;
 import com.movieticketsystem.location.Entities.Seat;
 
@@ -12,5 +14,7 @@ public interface ScreenService {
 
     String deleteScreenById(String screenId);
 
-    Seat selectSeat(Long screenId, Long seatId);
+    List<Seat> getAllAvailableSeats(String screenName);
+
+    String selectSeat(String screenName, List<String> seats);
 }

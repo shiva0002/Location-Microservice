@@ -1,21 +1,25 @@
 package com.movieticketsystem.location.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.movieticketsystem.location.Entities.Screen;
 import com.movieticketsystem.location.Entities.Seat;
-import com.movieticketsystem.location.Exception.NotFoundException;
 import com.movieticketsystem.location.Exception.ScreenNotFoundException;
 import com.movieticketsystem.location.Exception.SeatNotAvailableException;
 import com.movieticketsystem.location.Repository.ScreenRepo;
 
+@Service
 public class ScreenServiceImpl implements ScreenService {
 
     @Autowired
     private ScreenRepo screenRepo;
+
+    @Autowired
+    private SeatService seatService;
 
     @Override
     public String addScreen(Screen newScreen) {
@@ -46,24 +50,51 @@ public class ScreenServiceImpl implements ScreenService {
         return "Screen Deleted...";
     }
 
-    public Seat selectSeat(Long screenId, Long seatId) {
-        Optional<Screen> screenOptional = screenRepo.findByIdAndSeatsId(screenId, seatId);
-        Screen screen = screenOptional.orElseThrow(() -> new NotFoundException("Screen or seat not found with provided IDs"));
+    // public Seat selectSeat(String screenId, String seatId) {
+    //     Optional<Screen> screenOptional = screenRepo.findByScreenIdAndSeatsId(screenId, seatId);
+    //     Screen screen = screenOptional.orElseThrow(() -> new NotFoundException("Screen or seat not found with provided IDs"));
 
-        List<Seat> seats = screen.getSeats();
-        Seat selectedSeat = seats.stream()
-                .filter(seat -> seat.getId().equals(seatId))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Seat not found with id: " + seatId));
+    //     List<Seat> seats = screen.getSeats();
+    //     Seat selectedSeat = seats.stream()
+    //             .filter(seat -> seat.getId().equals(seatId))
+    //             .findFirst()
+    //             .orElseThrow(() -> new NotFoundException("Seat not found with id: " + seatId));
 
-        if (selectedSeat.isAvailable()) {
-            selectedSeat.setAvailable(false);
-            screenRepo.save(screen);
-        } else {
-            throw new SeatNotAvailableException("Seat not available");
+    //     if (selectedSeat.isAvailable()) {
+    //         selectedSeat.setAvailable(false);
+    //         screenRepo.save(screen);
+    //     } else {
+    //         throw new SeatNotAvailableException("Seat not available");
+    //     }
+
+    //     return selectedSeat;
+    // }
+
+    @Override
+    public List<Seat> getAllAvailableSeats(String screenName) {
+       Screen screen = screenRepo.findByScreenName(screenName).orElseThrow(()-> new ScreenNotFoundException("Screen with Id: "+screenName+" not found"));
+        List<Seat> allSeats = screen.getSeats();
+        List<Seat> availableSeats = allSeats.stream().filter(e -> e.isAvailable()).collect(Collectors.toList());
+        return availableSeats;
+    }
+
+    @Override
+    public String selectSeat(String screenName, List<String> seats) {
+        List<Seat> availableSeats = getAllAvailableSeats(screenName);
+
+        for(String s:seats){
+            for(Seat seat:availableSeats){
+                if(seat.getSeatNumber().equals(s)){
+                    return seatService.updateSeat(s);
+                }
+                else{
+                    throw new SeatNotAvailableException("Seat with seat number "+s+" not available");
+                }
+            }
         }
 
-        return selectedSeat;
+        return "Not Able to Book Seats";
+        
     }
     
 }

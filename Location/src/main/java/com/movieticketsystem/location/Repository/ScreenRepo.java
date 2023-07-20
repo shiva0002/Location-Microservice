@@ -10,6 +10,8 @@ import com.movieticketsystem.location.Entities.Screen;
 @Repository
 public interface ScreenRepo extends JpaRepository<Screen,String> {
 
-    Optional<Screen> findByIdAndSeatsId(Long screenId, Long seatId);
+    Optional<Screen> findByScreenIdAndSeatsId(String screenId, String seatId);
+
+    Optional<Screen> findByScreenName(String screenName);
     
 }

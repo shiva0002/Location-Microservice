@@ -6,14 +6,8 @@ import com.movieticketsystem.location.Entities.Seat;
 
 public interface SeatService {
 
-    Seat getSeatById(Long id);
+    String updateSeat(String seatNumber);
 
-    List<Seat> getAllSeats();
-
-    List<Seat> getAllSeatsByScreenId(Long screenId);
-
-    Seat updateSeat(Long id, Seat seat);
-
-    void deleteSeat(Long id);
+    List<Seat> insertAll(List<Seat> s);
     
 }

@@ -19,10 +19,9 @@ import lombok.Setter;
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private String id;
 
-    private String number;
-    private String row;
+    private String seatNumber;
     private boolean available;
 
     @ManyToOne
