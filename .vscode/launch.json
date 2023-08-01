@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LocationApplication<Location>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.movieticketsystem.location.LocationApplication",
+            "projectName": "Location",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -17,21 +17,21 @@ public class CityServiceImpl implements CityService {
     private CityRepo cityRepo;
     
     @Override
-    public String addCity(City newCity) {
+    public City addCity(City newCity) {
         
         City city = cityRepo.save(newCity);
-        return "City Successfully Added...";
+        return city;
     }
 
     @Override
-    public String updateCity(String cityName, City city) {
+    public City updateCity(String cityName, City city) {
         
         City tempCity = cityRepo.findByCityName(cityName).orElseThrow(()->new CityNotFoundException("City: "+cityName+" not found"));
         tempCity.setCityName(city.getCityName());
         tempCity.setCityAddress(city.getCityAddress());
 
         City newCity = cityRepo.save(tempCity);
-        return "City Details Updated...";
+        return newCity;
     }
 
     @Override

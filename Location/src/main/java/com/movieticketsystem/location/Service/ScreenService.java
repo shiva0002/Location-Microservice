@@ -6,9 +6,9 @@ import com.movieticketsystem.location.Entities.Screen;
 import com.movieticketsystem.location.Entities.Seat;
 
 public interface ScreenService {
-    String addScreen(Screen screen);
+    Screen addScreen(Screen screen);
 
-    String updateScreen(String screenId,Screen screen);
+    Screen updateScreen(String screenId,Screen screen);
 
     Screen getScreenById(String screenId);
 

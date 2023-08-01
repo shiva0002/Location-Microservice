@@ -17,19 +17,19 @@ public class TheatreServiceImpl implements TheatreService {
     private TheatreRepo theatreRepo;
 
     @Override
-    public String addTheatre(Theatre newTheatre) {
-        Theatre Theatre = theatreRepo.save(newTheatre);
-        return "Theatre Successfully Added...";
+    public Theatre addTheatre(Theatre newTheatre) {
+        Theatre theatre = theatreRepo.save(newTheatre);
+        return theatre;
     }
 
     @Override
-    public String updateTheatre(String theatreName, Theatre theatre) {
+    public Theatre updateTheatre(String theatreName, Theatre theatre) {
         Theatre tempTheatre = theatreRepo.findByTheatreName(theatreName).orElseThrow(()->new TheatreNotFoundException("Theatre: "+theatreName+" not found"));
         tempTheatre.setTheatreName(theatre.getTheatreName());
         tempTheatre.setTheatreAddress(theatre.getTheatreAddress());
 
         Theatre newTheatre = theatreRepo.save(tempTheatre);
-        return "Theatre Details Updated...";
+        return newTheatre;
     }
 
     @Override

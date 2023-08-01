@@ -6,9 +6,9 @@ import com.movieticketsystem.location.Entities.Screen;
 import com.movieticketsystem.location.Entities.Theatre;
 
 public interface TheatreService {
-    String addTheatre(Theatre theatre);
+    Theatre addTheatre(Theatre theatre);
 
-    String updateTheatre(String theatreName,Theatre theatre);
+    Theatre updateTheatre(String theatreName,Theatre theatre);
 
     Theatre getTheatreById(String theatreId);
 

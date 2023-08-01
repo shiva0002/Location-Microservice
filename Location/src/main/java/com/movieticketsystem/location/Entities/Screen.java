@@ -25,9 +25,7 @@ public class Screen {
     private String screenId;
 	private String screenName;
 
-	@OneToMany(mappedBy = "screen",cascade = CascadeType.ALL)
+	@OneToMany
     private List<Seat> seats;
 
-    @ManyToOne
-    private Theatre theatre;
 }

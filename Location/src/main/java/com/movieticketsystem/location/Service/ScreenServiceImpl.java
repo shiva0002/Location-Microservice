@@ -22,19 +22,19 @@ public class ScreenServiceImpl implements ScreenService {
     private SeatService seatService;
 
     @Override
-    public String addScreen(Screen newScreen) {
+    public Screen addScreen(Screen newScreen) {
         Screen screen = screenRepo.save(newScreen);
-        return "Screen Successfully Added...";
+        return screen;
     }
 
     @Override
-    public String updateScreen(String screenId, Screen screen) {
+    public Screen updateScreen(String screenId, Screen screen) {
         Screen tempScreen = screenRepo.findById(screenId).orElseThrow(()->new ScreenNotFoundException("Screen: "+screenId+" not found"));
         tempScreen.setScreenName(screen.getScreenName());
         tempScreen.setSeats(screen.getSeats());
 
         Screen newScreen = screenRepo.save(tempScreen);
-        return "Screen Details Updated...";
+        return newScreen;
     }
 
     @Override

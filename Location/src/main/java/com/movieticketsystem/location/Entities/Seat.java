@@ -23,11 +23,5 @@ public class Seat {
 
     private String seatNumber;
     private boolean available;
-
-    @ManyToOne
-    @JoinColumn(name = "screen_id")
-    private Screen screen;
-
-    // Constructors, getters, and setters
 }
 

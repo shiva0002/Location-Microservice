@@ -7,9 +7,9 @@ import com.movieticketsystem.location.Entities.Theatre;
 
 public interface CityService {
     
-    String addCity(City city);
+    City addCity(City city);
 
-    String updateCity(String cityName,City city);
+    City updateCity(String cityName,City city);
 
     City getCityByName(String cityName);
 
