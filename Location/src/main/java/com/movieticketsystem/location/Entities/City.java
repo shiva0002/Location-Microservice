@@ -23,7 +23,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String cityId;
 	private String cityName;
-	private String cityAddress;
+	private String state;
 
     @OneToMany
     private List<Theatre> theatre;

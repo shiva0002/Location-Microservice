@@ -1,13 +1,15 @@
 package com.movieticketsystem.location.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.movieticketsystem.location.Entities.City;
-import com.movieticketsystem.location.Entities.Theatre;
 
 public interface CityService {
     
     City addCity(City city);
+
+    List<String> getAllCity();
 
     City updateCity(String cityName,City city);
 
@@ -15,5 +17,5 @@ public interface CityService {
 
     String deleteCityById(String cityId);
 
-    List<Theatre> getAllTheatres(String cityName);
+    Map<String,String> getAllTheatres(String cityName);
 }

@@ -26,14 +26,14 @@ public class ScreenController {
     private ScreenService screenService;
 
     @PostMapping("/addScreen")
-    public ResponseEntity<String> addScreen(@RequestBody Screen screen) {
-        String result = screenService.addScreen(screen);
+    public ResponseEntity<Screen> addScreen(@RequestBody Screen screen) {
+        Screen result = screenService.addScreen(screen);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{screenId}")
-    public ResponseEntity<String> updateScreen(@PathVariable String screenId, @RequestBody Screen screen) {
-        String result = screenService.updateScreen(screenId, screen);
+    public ResponseEntity<Screen> updateScreen(@PathVariable String screenId, @RequestBody Screen screen) {
+        Screen result = screenService.updateScreen(screenId, screen);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

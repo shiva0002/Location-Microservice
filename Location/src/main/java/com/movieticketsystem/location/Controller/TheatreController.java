@@ -26,14 +26,14 @@ public class TheatreController {
     private TheatreService theatreService;
 
     @PostMapping("/addTheatre")
-    public ResponseEntity<String> addTheatre(@RequestBody Theatre theatre) {
-        String result = theatreService.addTheatre(theatre);
+    public ResponseEntity<Theatre> addTheatre(@RequestBody Theatre theatre) {
+        Theatre result = theatreService.addTheatre(theatre);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateTheatre/{theatreName}")
-    public ResponseEntity<String> updateTheatre(@PathVariable String theatreName, @RequestBody Theatre theatre) {
-        String result = theatreService.updateTheatre(theatreName, theatre);
+    public ResponseEntity<Theatre> updateTheatre(@PathVariable String theatreName, @RequestBody Theatre theatre) {
+        Theatre result = theatreService.updateTheatre(theatreName, theatre);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -50,8 +50,8 @@ public class TheatreController {
     }
 
     @GetMapping("/{theatreName}/getAllscreens")
-    public ResponseEntity<List<Screen>> getAllScreens(@PathVariable String theatreName) {
-        List<Screen> screens = theatreService.getAllScreens(theatreName);
+    public ResponseEntity<List<String>> getAllScreens(@PathVariable String theatreName) {
+        List<String> screens = theatreService.getAllScreens(theatreName);
         return new ResponseEntity<>(screens, HttpStatus.OK);
     }
 }

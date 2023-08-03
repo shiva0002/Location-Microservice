@@ -1,34 +1,68 @@
 package com.movieticketsystem.location.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.movieticketsystem.location.Entities.City;
+import com.movieticketsystem.location.Entities.Screen;
+import com.movieticketsystem.location.Entities.Seat;
 import com.movieticketsystem.location.Entities.Theatre;
 import com.movieticketsystem.location.Exception.CityNotFoundException;
 import com.movieticketsystem.location.Repository.CityRepo;
+import com.movieticketsystem.location.Repository.ScreenRepo;
+import com.movieticketsystem.location.Repository.SeatRepo;
+import com.movieticketsystem.location.Repository.TheatreRepo;
 
 @Service
 public class CityServiceImpl implements CityService {
 
     @Autowired
     private CityRepo cityRepo;
-    
+
+    @Autowired
+    private TheatreRepo theatreRepo;
+
+    @Autowired
+    private ScreenRepo screenRepo;
+
+    @Autowired
+    private SeatRepo seatRepo;
+
     @Override
     public City addCity(City newCity) {
-        
+
+        List<Theatre> theatres = newCity.getTheatre();
+
+        for (Theatre theatre : theatres) {
+
+            List<Screen> screens = theatre.getScreens();
+            for (Screen screen : screens) {
+
+                List<Seat> seats = screen.getSeats();
+                for (Seat seat : seats) {
+                    seatRepo.save(seat);
+                }
+                screenRepo.save(screen);
+            }
+            theatreRepo.save(theatre);
+        }
+
         City city = cityRepo.save(newCity);
         return city;
     }
 
     @Override
     public City updateCity(String cityName, City city) {
-        
-        City tempCity = cityRepo.findByCityName(cityName).orElseThrow(()->new CityNotFoundException("City: "+cityName+" not found"));
+
+        City tempCity = cityRepo.findByCityName(cityName)
+                .orElseThrow(() -> new CityNotFoundException("City: " + cityName + " not found"));
         tempCity.setCityName(city.getCityName());
-        tempCity.setCityAddress(city.getCityAddress());
+        tempCity.setState(city.getState());
 
         City newCity = cityRepo.save(tempCity);
         return newCity;
@@ -36,8 +70,9 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public City getCityByName(String cityName) {
-        City city = cityRepo.findByCityName(cityName).orElseThrow(()-> new CityNotFoundException("City with Id: "+cityName+" not found"));
-        
+        City city = cityRepo.findByCityName(cityName)
+                .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + " not found"));
+
         return city;
     }
 
@@ -47,12 +82,35 @@ public class CityServiceImpl implements CityService {
         return "City Deleted...";
     }
 
-    @Override
-    public List<Theatre> getAllTheatres(String cityName) {
-        City city = cityRepo.findByCityName(cityName).orElseThrow(()-> new CityNotFoundException("City with Id: "+cityName+" not found"));
+    // @Override
+    // public List<Theatre> getAllTheatres(String cityName) {
+    //     City city = cityRepo.findByCityName(cityName)
+    //             .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + " not found"));
 
-        return city.getTheatre();
+    //     return city.getTheatre();
+    // }
+
+    @Override
+    public Map<String,String> getAllTheatres(String cityName) {
+        City city = cityRepo.findByCityName(cityName)
+                .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + " not found"));
+
+        Map<String,String> theatres = new HashMap<>();
+        for(Theatre theatre:city.getTheatre()){
+            theatres.put(theatre.getTheatreName(), theatre.getTheatreAddress());
+        }
+        return theatres;
     }
-    
-    
+
+    @Override
+    public List<String> getAllCity() {
+        List<City> cities = cityRepo.findAll();
+        List<String> cityNames = new ArrayList<>();
+        for(City city:cities){
+            cityNames.add(city.getCityName());
+        }
+
+        return cityNames;
+    }
+
 }

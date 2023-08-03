@@ -1,6 +1,7 @@
 package com.movieticketsystem.location.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,18 @@ public class CityController {
     private CityService cityService;
     
     @PostMapping
-    public ResponseEntity<String> addCity(@RequestBody City city) {
-        String result = cityService.addCity(city);
+    public ResponseEntity<City> addCity(@RequestBody City city) {
+        City result = cityService.addCity(city);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+    @GetMapping
+    public ResponseEntity<List<String>> getAllCity(){
+        return new ResponseEntity<>(cityService.getAllCity(),HttpStatus.OK);
     }
 
     @PutMapping("/updateCity/{cityName}")
-    public ResponseEntity<String> updateCity(@PathVariable String cityName, @RequestBody City city) {
-        String result = cityService.updateCity(cityName, city);
+    public ResponseEntity<City> updateCity(@PathVariable String cityName, @RequestBody City city) {
+        City result = cityService.updateCity(cityName, city);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -50,8 +55,7 @@ public class CityController {
     }
 
     @GetMapping("/{cityName}/getAlltheatres")
-    public ResponseEntity<List<Theatre>> getAllTheatres(@PathVariable String cityName) {
-        List<Theatre> theatres = cityService.getAllTheatres(cityName);
-        return new ResponseEntity<>(theatres, HttpStatus.OK);
+    public ResponseEntity<Map<String,String>> getAllTheatres(@PathVariable String cityName) {
+        return new ResponseEntity<>(cityService.getAllTheatres(cityName), HttpStatus.OK);
     }
 }

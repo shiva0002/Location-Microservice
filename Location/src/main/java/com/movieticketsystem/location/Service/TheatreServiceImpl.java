@@ -1,6 +1,8 @@
 package com.movieticketsystem.location.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,10 +48,14 @@ public class TheatreServiceImpl implements TheatreService {
     }
 
     @Override
-    public List<Screen> getAllScreens(String theatreName) {
-        Theatre Theatre = theatreRepo.findByTheatreName(theatreName).orElseThrow(()-> new TheatreNotFoundException("Theatre with Id: "+theatreName+" not found"));
+    public List<String> getAllScreens(String theatreName) {
+        Theatre theatre = theatreRepo.findByTheatreName(theatreName).orElseThrow(()-> new TheatreNotFoundException("Theatre with Id: "+theatreName+" not found"));
+        List<String> screens = new ArrayList<>();
+        for(Screen screen:theatre.getScreens()){
+            screens.add(screen.getScreenName());
+        }
 
-        return Theatre.getScreens();
+        return screens;
     }
     
 }
