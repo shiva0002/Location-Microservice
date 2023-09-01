@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.movieticketsystem.location.Entities.City;
+import com.movieticketsystem.location.Entities.Movies;
 import com.movieticketsystem.location.Entities.Screen;
 import com.movieticketsystem.location.Entities.Seat;
 import com.movieticketsystem.location.Entities.Theatre;
 import com.movieticketsystem.location.Exception.CityNotFoundException;
 import com.movieticketsystem.location.Repository.CityRepo;
+import com.movieticketsystem.location.Repository.MovieRepository;
 import com.movieticketsystem.location.Repository.ScreenRepo;
 import com.movieticketsystem.location.Repository.SeatRepo;
 import com.movieticketsystem.location.Repository.TheatreRepo;
@@ -33,6 +35,9 @@ public class CityServiceImpl implements CityService {
     @Autowired
     private SeatRepo seatRepo;
 
+    @Autowired
+    private MovieRepository movieRepo;
+
     @Override
     public City addCity(City newCity) {
 
@@ -40,14 +45,19 @@ public class CityServiceImpl implements CityService {
 
         for (Theatre theatre : theatres) {
 
-            List<Screen> screens = theatre.getScreens();
-            for (Screen screen : screens) {
+            List<Movies> movies = theatre.getMovies();
 
-                List<Seat> seats = screen.getSeats();
-                for (Seat seat : seats) {
-                    seatRepo.save(seat);
+            for (Movies movie : movies) {
+                List<Screen> screens = movie.getScreens();
+                for (Screen screen : screens) {
+
+                    List<Seat> seats = screen.getSeats();
+                    for (Seat seat : seats) {
+                        seatRepo.save(seat);
+                    }
+                    screenRepo.save(screen);
                 }
-                screenRepo.save(screen);
+                movieRepo.save(movie);
             }
             theatreRepo.save(theatre);
         }
@@ -77,26 +87,26 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public String deleteCityById(String cityId) {
+    public void deleteCityById(String cityId) {
         cityRepo.deleteById(cityId);
-        return "City Deleted...";
     }
 
     // @Override
     // public List<Theatre> getAllTheatres(String cityName) {
-    //     City city = cityRepo.findByCityName(cityName)
-    //             .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + " not found"));
+    // City city = cityRepo.findByCityName(cityName)
+    // .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + "
+    // not found"));
 
-    //     return city.getTheatre();
+    // return city.getTheatre();
     // }
 
     @Override
-    public Map<String,String> getAllTheatres(String cityName) {
+    public Map<String, String> getAllTheatres(String cityName) {
         City city = cityRepo.findByCityName(cityName)
                 .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + " not found"));
 
-        Map<String,String> theatres = new HashMap<>();
-        for(Theatre theatre:city.getTheatre()){
+        Map<String, String> theatres = new HashMap<>();
+        for (Theatre theatre : city.getTheatre()) {
             theatres.put(theatre.getTheatreName(), theatre.getTheatreAddress());
         }
         return theatres;
@@ -106,7 +116,7 @@ public class CityServiceImpl implements CityService {
     public List<String> getAllCity() {
         List<City> cities = cityRepo.findAll();
         List<String> cityNames = new ArrayList<>();
-        for(City city:cities){
+        for (City city : cities) {
             cityNames.add(city.getCityName());
         }
 

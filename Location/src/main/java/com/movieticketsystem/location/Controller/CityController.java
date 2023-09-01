@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,34 +28,40 @@ public class CityController {
     private CityService cityService;
     
     @PostMapping
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<City> addCity(@RequestBody City city) {
         City result = cityService.addCity(city);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
     @GetMapping
+    @PreAuthorize("hasAnyRole('Admin','Users')")
     public ResponseEntity<List<String>> getAllCity(){
         return new ResponseEntity<>(cityService.getAllCity(),HttpStatus.OK);
     }
 
-    @PutMapping("/updateCity/{cityName}")
+    @PutMapping("/{cityName}")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<City> updateCity(@PathVariable String cityName, @RequestBody City city) {
         City result = cityService.updateCity(cityName, city);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getCity/{cityName}")
+    @GetMapping("/{cityName}")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<City> getCityByName(@PathVariable String cityName) {
         City city = cityService.getCityByName(cityName);
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteCity/{cityId}")
-    public ResponseEntity<String> deleteCityById(@PathVariable String cityId) {
-        String result = cityService.deleteCityById(cityId);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    @DeleteMapping("/{cityId}")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<Void> deleteCityById(@PathVariable String cityId) {
+        cityService.deleteCityById(cityId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{cityName}/getAlltheatres")
+    @GetMapping("/{cityName}/getAllTheatres")
+    @PreAuthorize("hasAnyRole('Admin','Users')")
     public ResponseEntity<Map<String,String>> getAllTheatres(@PathVariable String cityName) {
         return new ResponseEntity<>(cityService.getAllTheatres(cityName), HttpStatus.OK);
     }

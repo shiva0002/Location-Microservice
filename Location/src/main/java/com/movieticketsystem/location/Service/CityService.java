@@ -15,7 +15,7 @@ public interface CityService {
 
     City getCityByName(String cityName);
 
-    String deleteCityById(String cityId);
+    void deleteCityById(String cityId);
 
     Map<String,String> getAllTheatres(String cityName);
 }

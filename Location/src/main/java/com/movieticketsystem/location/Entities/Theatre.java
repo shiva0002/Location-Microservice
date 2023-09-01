@@ -29,5 +29,5 @@ public class Theatre {
 	private String theatreAddress;
     
     @OneToMany
-    private List<Screen> screens;
+    private List<Movies> movies;
 }

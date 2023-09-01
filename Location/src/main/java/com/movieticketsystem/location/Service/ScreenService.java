@@ -12,9 +12,9 @@ public interface ScreenService {
 
     Screen getScreenById(String screenId);
 
-    String deleteScreenById(String screenId);
+    void deleteScreenById(String screenId);
 
-    List<Seat> getAllAvailableSeats(String screenName);
+    List<Seat> getAllAvailableSeats(String screenId);
 
     String selectSeat(String screenName, List<String> seats);
 }

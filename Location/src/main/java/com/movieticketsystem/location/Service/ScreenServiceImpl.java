@@ -1,6 +1,8 @@
 package com.movieticketsystem.location.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +47,8 @@ public class ScreenServiceImpl implements ScreenService {
     }
 
     @Override
-    public String deleteScreenById(String screenId) {
+    public void deleteScreenById(String screenId) {
         screenRepo.deleteById(screenId);
-        return "Screen Deleted...";
     }
 
     // public Seat selectSeat(String screenId, String seatId) {
@@ -71,8 +72,8 @@ public class ScreenServiceImpl implements ScreenService {
     // }
 
     @Override
-    public List<Seat> getAllAvailableSeats(String screenName) {
-       Screen screen = screenRepo.findByScreenName(screenName).orElseThrow(()-> new ScreenNotFoundException("Screen with Id: "+screenName+" not found"));
+    public List<Seat> getAllAvailableSeats(String screenId) {
+       Screen screen = screenRepo.findById(screenId).orElseThrow(()-> new ScreenNotFoundException("Screen with Id: "+screenId+" not found"));
         List<Seat> allSeats = screen.getSeats();
         List<Seat> availableSeats = allSeats.stream().filter(e -> e.isAvailable()).collect(Collectors.toList());
         return availableSeats;

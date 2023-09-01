@@ -25,13 +25,10 @@ public class Screen {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String screenId;
 	private String screenName;
-    private LocalDate showDate;
-    private LocalTime showTime;
+    private String showDate;
+    private TimeSlots timeSlot;
 
 	@OneToMany
     private List<Seat> seats;
-
-    @Transient
-    private Movies movies;
 
 }
