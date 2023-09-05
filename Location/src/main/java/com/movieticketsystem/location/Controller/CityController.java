@@ -47,7 +47,7 @@ public class CityController {
     }
 
     @GetMapping("/{cityName}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Users')")
     public ResponseEntity<City> getCityByName(@PathVariable String cityName) {
         City city = cityService.getCityByName(cityName);
         return new ResponseEntity<>(city, HttpStatus.OK);

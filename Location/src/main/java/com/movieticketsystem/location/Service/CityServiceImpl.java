@@ -81,7 +81,7 @@ public class CityServiceImpl implements CityService {
     @Override
     public City getCityByName(String cityName) {
         City city = cityRepo.findByCityName(cityName)
-                .orElseThrow(() -> new CityNotFoundException("City with Id: " + cityName + " not found"));
+                .orElseThrow(() -> new CityNotFoundException("City with Name: " + cityName + " not found"));
 
         return city;
     }

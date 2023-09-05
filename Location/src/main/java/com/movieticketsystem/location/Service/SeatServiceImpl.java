@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.movieticketsystem.location.Entities.Seat;
-import com.movieticketsystem.location.Exception.NotFoundException;
 import com.movieticketsystem.location.Exception.SeatNotFoundException;
 import com.movieticketsystem.location.Repository.SeatRepo;
 
